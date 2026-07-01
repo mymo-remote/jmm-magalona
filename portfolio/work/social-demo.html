@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30-Day Social Media Content Calendar — John Mark Magalona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0d1b2a; --navy-mid: #162840; --gold: #d4b453;
+      --gold-dim: rgba(212,180,83,0.1); --gold-border: rgba(212,180,83,0.25);
+      --green: #10b981; --blue: #3b82f6; --pink: #ec4899; --purple: #8b5cf6;
+      --orange: #f97316; --teal: #14b8a6;
+      --white: #fff; --gray-50: #f8fafc; --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0; --gray-400: #94a3b8; --gray-600: #64748b;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: var(--gray-100); color: #1e293b; min-height: 100vh; }
+
+    .demo-banner {
+      background: rgba(212,180,83,0.1); border-bottom: 1px solid var(--gold-border);
+      padding: 6px 20px; text-align: center; font-size: 0.7rem; color: #7a5f1a; font-weight: 500;
+    }
+    .header {
+      background: var(--navy); padding: 14px 24px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .back-link { font-size: 0.76rem; color: rgba(255,255,255,0.5); transition: color 0.2s; text-decoration: none; }
+    .back-link:hover { color: var(--gold); }
+    .header-title { font-family: var(--serif); font-size: 1.05rem; color: var(--white); }
+    .header-title span { color: var(--gold); }
+    .header-badge { background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px; border-radius: 4px; }
+
+    /* TOP CONTROLS */
+    .controls { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 14px 24px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+    .month-nav { display: flex; align-items: center; gap: 12px; }
+    .month-btn { background: none; border: 1px solid var(--gray-200); border-radius: 6px; width: 30px; height: 30px; cursor: pointer; font-size: 0.85rem; color: var(--gray-600); display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .month-btn:hover { border-color: var(--gold); color: var(--gold); }
+    .month-label { font-weight: 700; font-size: 0.95rem; min-width: 160px; text-align: center; }
+    .view-toggle { display: flex; border: 1px solid var(--gray-200); border-radius: 7px; overflow: hidden; margin-left: auto; }
+    .view-btn { padding: 7px 14px; font-size: 0.75rem; font-weight: 600; border: none; cursor: pointer; background: var(--white); color: var(--gray-600); transition: all 0.15s; }
+    .view-btn.active { background: var(--navy); color: var(--white); }
+    .filter-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn { font-size: 0.7rem; font-weight: 700; padding: 5px 11px; border-radius: 20px; border: 1px solid transparent; cursor: pointer; transition: all 0.2s; }
+    .filter-btn.active { color: white; }
+
+    /* STATS BAR */
+    .stats-bar { background: var(--white); border-bottom: 1px solid var(--gray-200); padding: 12px 24px; display: flex; gap: 24px; flex-wrap: wrap; }
+    .stat { display: flex; flex-direction: column; }
+    .stat-num { font-size: 1.1rem; font-weight: 800; color: var(--navy); }
+    .stat-label { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gray-400); font-weight: 600; }
+
+    /* CALENDAR GRID */
+    .calendar-wrap { padding: 20px 24px; }
+    .cal-header { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 6px; }
+    .cal-day-label { text-align: center; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gray-400); padding: 4px; }
+    .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+    .cal-cell {
+      background: var(--white); border-radius: 8px; padding: 8px; min-height: 90px;
+      border: 1px solid var(--gray-200); cursor: pointer; transition: border-color 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .cal-cell:hover { border-color: var(--gold); }
+    .cal-cell.other-month { background: var(--gray-50); opacity: 0.5; }
+    .cal-cell.today { border-color: var(--gold); border-width: 2px; }
+    .cal-cell.has-content { background: var(--white); }
+    .cell-date { font-size: 0.72rem; font-weight: 700; color: var(--gray-400); margin-bottom: 6px; }
+    .cal-cell.today .cell-date { color: var(--gold); }
+    .post-chip {
+      font-size: 0.58rem; font-weight: 700; padding: 2px 6px; border-radius: 3px;
+      margin-bottom: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+      cursor: pointer; display: block;
+    }
+    .more-chip { font-size: 0.58rem; color: var(--gray-400); font-weight: 600; margin-top: 2px; }
+
+    /* LIST VIEW */
+    .list-view { padding: 0 24px 24px; display: none; }
+    .list-week { margin-bottom: 20px; }
+    .week-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--gray-400); margin-bottom: 10px; padding-left: 4px; }
+    .list-row {
+      background: var(--white); border-radius: 10px; padding: 14px 18px; margin-bottom: 8px;
+      border: 1px solid var(--gray-200); display: flex; align-items: center; gap: 14px;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+    .list-row:hover { border-color: var(--gold); }
+    .list-date { font-size: 0.75rem; font-weight: 700; color: var(--navy); width: 52px; flex-shrink: 0; }
+    .list-platform { font-size: 0.75rem; font-weight: 700; width: 100px; flex-shrink: 0; }
+    .list-content { flex: 1; }
+    .list-title { font-size: 0.83rem; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+    .list-desc { font-size: 0.72rem; color: var(--gray-400); }
+    .list-status { font-size: 0.65rem; font-weight: 700; padding: 3px 8px; border-radius: 4px; }
+    .status-done { background: rgba(16,185,129,0.1); color: var(--green); }
+    .status-scheduled { background: rgba(59,130,246,0.1); color: var(--blue); }
+    .status-draft { background: rgba(245,158,11,0.1); color: #b45309; }
+    .status-idea { background: var(--gray-100); color: var(--gray-600); }
+
+    /* POST MODAL */
+    .overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+    .overlay.open { display: flex; }
+    .modal { background: var(--white); border-radius: 14px; width: 100%; max-width: 520px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    .modal-header { background: var(--navy); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; }
+    .modal-header h3 { font-family: var(--serif); color: var(--white); font-size: 1rem; }
+    .modal-close { background: none; border: none; color: rgba(255,255,255,0.6); font-size: 1.3rem; cursor: pointer; transition: color 0.2s; }
+    .modal-close:hover { color: var(--white); }
+    .modal-body { padding: 22px; }
+    .modal-platform-row { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+    .modal-platform-badge { font-size: 0.7rem; font-weight: 800; padding: 4px 10px; border-radius: 5px; text-transform: uppercase; letter-spacing: 0.07em; }
+    .modal-date { font-size: 0.78rem; color: var(--gray-400); }
+    .modal-caption { font-size: 0.88rem; line-height: 1.7; color: #334155; background: var(--gray-50); border-radius: 8px; padding: 14px; margin-bottom: 14px; border: 1px solid var(--gray-200); }
+    .modal-tags { display: flex; gap: 7px; flex-wrap: wrap; margin-bottom: 14px; }
+    .modal-tag { font-size: 0.68rem; font-weight: 600; padding: 3px 9px; border-radius: 20px; background: var(--gold-dim); border: 1px solid var(--gold-border); color: #7a5f1a; }
+    .modal-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .modal-meta-item { background: var(--gray-50); border-radius: 8px; padding: 10px; }
+    .modal-meta-label { font-size: 0.62rem; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gray-400); font-weight: 700; margin-bottom: 4px; }
+    .modal-meta-value { font-size: 0.8rem; font-weight: 600; color: var(--navy); }
+    .modal-footer { padding: 14px 22px; border-top: 1px solid var(--gray-200); display: flex; gap: 10px; justify-content: flex-end; }
+    .modal-btn { font-size: 0.78rem; font-weight: 700; padding: 9px 18px; border-radius: 7px; border: none; cursor: pointer; }
+    .modal-btn.primary { background: var(--navy); color: var(--white); }
+    .modal-btn.secondary { background: var(--gray-100); color: var(--gray-600); }
+  </style>
+</head>
+<body>
+
+  <div class="demo-banner"><strong>Interactive Demo</strong> — Click any post chip or list row to see the full caption & details. Toggle Calendar / List view.</div>
+  <div class="header">
+    <div class="header-left">
+      <a href="index.html" class="back-link">← Portfolio</a>
+      <div class="header-title">JMM <span>Social Calendar</span></div>
+    </div>
+    <div class="header-badge">30-Day Content Plan</div>
+  </div>
+
+  <div class="controls">
+    <div class="month-nav">
+      <button class="month-btn" onclick="prevMonth()">‹</button>
+      <div class="month-label" id="monthLabel">July 2026</div>
+      <button class="month-btn" onclick="nextMonth()">›</button>
+    </div>
+    <div class="filter-btns" id="filterBtns"></div>
+    <div class="view-toggle">
+      <button class="view-btn active" id="calBtn" onclick="setView('calendar')">Calendar</button>
+      <button class="view-btn" id="listBtn" onclick="setView('list')">List</button>
+    </div>
+  </div>
+
+  <div class="stats-bar" id="statsBar"></div>
+
+  <!-- CALENDAR VIEW -->
+  <div id="calendarView">
+    <div class="calendar-wrap">
+      <div class="cal-header">
+        <div class="cal-day-label">Sun</div>
+        <div class="cal-day-label">Mon</div>
+        <div class="cal-day-label">Tue</div>
+        <div class="cal-day-label">Wed</div>
+        <div class="cal-day-label">Thu</div>
+        <div class="cal-day-label">Fri</div>
+        <div class="cal-day-label">Sat</div>
+      </div>
+      <div class="cal-grid" id="calGrid"></div>
+    </div>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div class="list-view" id="listView"></div>
+
+  <!-- MODAL -->
+  <div class="overlay" id="overlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle">Post Details</h3>
+        <button class="modal-close" onclick="closeModalBtn()">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="modal-btn secondary" onclick="closeModalBtn()">Close</button>
+        <button class="modal-btn primary" onclick="alert('Status updated!')">Mark Done</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const PLATFORMS = {
+      'LinkedIn':  { color: '#0a66c2', bg: '#dbeafe', text: '#1d4ed8', emoji: '💼' },
+      'Facebook':  { color: '#1877f2', bg: '#dbeafe', text: '#1e40af', emoji: '📘' },
+      'Instagram': { color: '#e1306c', bg: '#fce7f3', text: '#be185d', emoji: '📸' },
+      'Twitter/X': { color: '#14171a', bg: '#f3f4f6', text: '#374151', emoji: '🐦' },
+    };
+    const STATUSES = ['done','done','done','scheduled','scheduled','draft','draft','idea'];
+
+    const POSTS = [
+      // Week 1
+      { day: 1,  platform: 'LinkedIn',  title: 'Why AU Agencies Are Hiring Remote VAs', caption: '🇦🇺 The real estate landscape in Australia has shifted.\n\nAgencies that used to rely on in-house support are now onboarding remote VAs — and here\'s why:\n\n✅ Lower overhead (no desk, no super, no leave)\n✅ Flexible scaling during listing season\n✅ Specialized skills (CRM, listings, vendor comms)\n\nIf you\'re a principal agent juggling admin and sales — there\'s a better way.\n\n📩 DM me to explore how a trained AU real estate VA can take 10+ hrs/week off your plate.', tags: ['#RealEstateVA','#AustraliaRealEstate','#RemoteWork','#VAServices'], type: 'Thought Leadership', time: '8:00 AM AEST', status: 'done' },
+      { day: 1,  platform: 'Facebook',  title: 'Intro Post — Who is JMM VA?', caption: 'Hi everyone 👋\n\nI\'m John Mark — a remote Virtual Assistant based in the Philippines, specialising in AU real estate admin.\n\nI help busy agents with:\n🏡 Listings management (Domain, REA Group)\n📋 CRM updates (Rex, Console Cloud)\n📧 Vendor comms & inbox management\n\nMy background: 6+ years as a maritime officer — deadline-driven, detail-obsessed, and calm under pressure. Now bringing those skills to Aussie agencies.\n\nDrop a "🏡" if you\'re in AU real estate!', tags: ['#VirtualAssistant','#RealEstate','#RemoteVA'], type: 'Brand Introduction', time: '9:00 AM AEST', status: 'done' },
+      { day: 2,  platform: 'Instagram', title: 'Day in the Life — AU Real Estate VA', caption: '⏰ A Day in the Life of an AU Real Estate VA 🇦🇺\n\n6:00 AM — Morning inbox triage (Inbox Zero system)\n7:30 AM — Update Rex CRM with OFI feedback\n9:00 AM — Publish new listings to Domain + REA\n11:00 AM — Vendor call summaries & follow-ups\n2:00 PM — Prepare settlement docs checklist\n4:00 PM — Schedule next week\'s social content\n\nThis is the work that frees Aussie agents to focus on what they do best — closing deals.\n\nSwipe to see the tools I use every day 👉', tags: ['#DayInTheLife','#RealEstateVA','#InboxZero','#RemoteWork'], type: 'Behind the Scenes', time: '7:00 AM AEST', status: 'done' },
+      { day: 3,  platform: 'LinkedIn',  title: '5 Tasks Every Agent Should Delegate Today', caption: '🚨 Stop doing these 5 tasks yourself:\n\n1. Inbox management — every reply you write is 10 min lost\n2. CRM data entry — error-prone and time-intensive\n3. Listing uploads — copy, paste, format, publish\n4. Vendor email chains — templated responses work 90% of the time\n5. Scheduling & reminders — a VA calendar system handles this\n\nTotal time reclaimed per week: 12–18 hours.\n\nThat\'s time back on the phone, at OFIs, and closing listings.\n\nDrop a comment with which task drains you most 👇', tags: ['#Delegation','#ProductivityTips','#RealEstateAustralia','#VAServices'], type: 'Value Post', time: '8:30 AM AEST', status: 'done' },
+      { day: 5,  platform: 'Instagram', title: 'Rex CRM Tip Carousel', caption: '📊 3 Rex CRM hacks I use every day for AU clients:\n\n1️⃣ Smart filters — segment vendor vs buyer leads automatically\n2️⃣ Automated follow-up sequences — never miss a 30-day touch\n3️⃣ Listing status pipeline — from appraisal to settlement, one view\n\nResult? My clients spend 0 time on CRM admin.\n\n💬 Which CRM does your agency use? Rex? Console? PropertyMe?', tags: ['#RexCRM','#RealEstateTech','#CRMTips','#AustralianRealEstate'], type: 'Tips & Tools', time: '7:30 AM AEST', status: 'done' },
+      { day: 6,  platform: 'Twitter/X', title: 'Quick Take: The 2-Hour Rule', caption: 'If an AU agent spends 2 hrs/day on admin at $500/hr listing fees — that\'s $260k/year in lost revenue potential.\n\nA VA at $3k/mo pays for itself in week 1.\n\nThe math isn\'t complicated.', tags: ['#RealEstate','#VA','#Australia'], type: 'Quick Take', time: '10:00 AM AEST', status: 'done' },
+      // Week 2
+      { day: 7,  platform: 'LinkedIn',  title: 'Client Win: Saved 15hrs/Week', caption: '📈 Client win — sharing with permission:\n\nA boutique agency principal in Queensland was spending 3 hrs/day on listing admin and vendor follow-ups.\n\nAfter 3 weeks working together:\n✅ Inbox down to zero daily\n✅ Rex CRM 100% up-to-date\n✅ Listing uploads handled same day\n✅ 15 hours/week returned to the principal\n\nResult: She listed 2 additional properties in Week 3 alone.\n\nThis is what a dedicated AU real estate VA does.\n\n📩 DM to explore a 2-week trial.', tags: ['#ClientWin','#RealEstateVA','#AustraliaRealEstate'], type: 'Social Proof', time: '8:00 AM AEST', status: 'scheduled' },
+      { day: 8,  platform: 'Facebook',  title: 'What is a Form 6 and Why It Matters', caption: '📋 New to AU real estate? Here\'s a quick explainer:\n\n🏡 Form 6 = the listing authority. It\'s the legal document giving an agent the right to sell a property.\n\nAs a VA, I help with:\n• Preparing Form 6 drafts for principal review\n• Chasing signed copies from vendors\n• Logging execution dates in Console Cloud\n• Following up expiry dates (6-month window)\n\nProper Form 6 management = no compliance headaches.\n\nAny agents or PMs want to talk SOPs? 👇', tags: ['#Form6','#AustralianRealEstate','#PropertyManagement','#ComplianceVA'], type: 'Education', time: '9:00 AM AEST', status: 'scheduled' },
+      { day: 9,  platform: 'Instagram', title: 'My Workspace Setup', caption: '🖥️ My remote setup for AU real estate VA work:\n\n📱 Dual screens for CRM + email side-by-side\n⏰ AEST timezone calendar (I work AU business hours)\n🔒 VPN + secure file access\n📋 Notion SOPs for every workflow\n🎧 Headset ready for AM coordination calls\n\nWhen you hire a remote VA, you deserve someone who shows up professionally.\n\nThis is mine.', tags: ['#RemoteSetup','#VAWA','#WorkFromHome','#RealEstateVA'], type: 'Behind the Scenes', time: '7:00 AM AEST', status: 'scheduled' },
+      { day: 10, platform: 'LinkedIn',  title: 'The Trust Problem With Remote Hiring', caption: '💬 The #1 concern I hear from AU agents before hiring a remote VA:\n\n"How do I know I can trust someone I\'ve never met?"\n\nHere\'s how I solve it:\n\n📋 Documented SOPs for every task I handle\n📊 Daily activity logs in Notion\n🔐 Strict data handling protocols\n✅ References from previous clients\n🔍 Verifiable credentials (TEFL, EF SET B2+)\n\nTrust is built through systems, not just words.\n\nIf you want to see my workflow docs — ask me to send them.', tags: ['#VirtualAssistant','#Trust','#RemoteHiring','#AustraliaVA'], type: 'Objection Handling', time: '8:30 AM AEST', status: 'scheduled' },
+      { day: 12, platform: 'Instagram', title: 'Before & After: CRM Cleanup', caption: '🔁 Before & After: Rex CRM Audit\n\nBEFORE:\n❌ 200+ contacts with missing phone numbers\n❌ 40 leads with no last-contact date\n❌ Duplicate vendors from old listings\n❌ No pipeline stage assigned\n\nAFTER (2 days of VA work):\n✅ All contacts verified & tagged\n✅ Follow-up sequences activated\n✅ Duplicates merged\n✅ Pipeline stages current\n\nClean CRM = no lead falls through the cracks.\n\nSwipe to see the before/after 👉', tags: ['#CRMCleanup','#RexCRM','#RealEstateTech','#RealEstateVA'], type: 'Before & After', time: '7:30 AM AEST', status: 'draft' },
+      { day: 13, platform: 'Twitter/X', title: 'Hot Take: AU Market & VAs', caption: 'With AU property listings surging in H2 2026 — agents who have VA support going into spring season will outperform those who don\'t.\n\nSupply of properties is rising. Time to manage them isn\'t.\n\nDelegate or drown.', tags: ['#AustralianProperty','#RealEstateVA'], type: 'Quick Take', time: '10:00 AM AEST', status: 'draft' },
+      // Week 3
+      { day: 14, platform: 'LinkedIn',  title: 'Week 2 in Review (Transparency Post)', caption: '📆 Week 2 transparency report:\n\nThis month I\'m building in public toward my goal of $4,500/mo in AU VA work.\n\nThis week:\n✅ Sent 12 applications on OnlineJobs.ph\n✅ Had 2 discovery calls with AU agents\n✅ Published 8 pieces of content\n✅ Updated my portfolio with 4 new demos\n\nGoal by end of July: 2 paying clients.\n\nFollowing along? Drop a 👊 below.', tags: ['#BuildingInPublic','#VAJourney','#AustraliaRemote','#VirtualAssistant'], type: 'Transparency', time: '8:00 AM AEST', status: 'draft' },
+      { day: 15, platform: 'Facebook',  title: 'PropertyMe vs Console Cloud — Which is Better?', caption: '🏡 PropertyMe vs Console Cloud — VA Perspective:\n\n🔹 Console Cloud: Great for end-to-end PM, strong lease management, solid automation.\n\n🔹 PropertyMe: More intuitive UI, better for smaller rent rolls, excellent mobile app.\n\nBoth have strong API integrations. Both need a trained operator to get the most out of them.\n\nAs a VA, I\'m trained on both. Which does your agency use?', tags: ['#PropertyMe','#ConsoleCloud','#RealEstateTech','#PropertyManagement'], type: 'Education', time: '9:00 AM AEST', status: 'draft' },
+      { day: 16, platform: 'Instagram', title: 'The Inbox Zero Method (Carousel)', caption: '📧 How I manage 80+ emails/day for AU real estate clients:\n\nThe 4-Folder System:\n\n1️⃣ ACTION — needs my response in 24hrs\n2️⃣ WAITING — ball is in their court\n3️⃣ REFERENCE — no action, but keep\n4️⃣ ARCHIVE — done, searchable forever\n\nRule: Nothing stays in the inbox overnight.\n\nResult: Zero missed leads. Zero lost vendor comms.\n\nWant the full SOP? Comment "INBOX" and I\'ll DM it to you.', tags: ['#InboxZero','#EmailManagement','#Productivity','#RealEstateVA'], type: 'Tips & Tools', time: '7:00 AM AEST', status: 'draft' },
+      { day: 18, platform: 'LinkedIn',  title: 'What Settlement Week Actually Looks Like', caption: '🗓️ Settlement week for an AU agent\'s VA:\n\nDay -5: Confirm all docs received (contract, transfer, Form 6)\nDay -3: Chase solicitors for settlement figures\nDay -2: Verify vendor bank details in system\nDay -1: Confirm settlement time & parking with all parties\nDay of: Be available from 8am AEST, monitor for delays\nDay +1: Archive file, update CRM, send vendor thank-you\n\nThis is the detail work that makes settlements smooth.\n\nAny settlement managers want to compare SOPs?', tags: ['#SettlementDay','#RealEstateAdmin','#AustralianProperty','#VirtualAssistant'], type: 'Education', time: '8:30 AM AEST', status: 'idea' },
+      { day: 20, platform: 'Instagram', title: 'Aesthetic Quote Card', caption: '"The best agents don\'t do more work.\nThey build better systems." 📋\n\nThat\'s what a VA is — a system, in human form.\n\nIf your agency is growing, you don\'t need another agent.\nYou need someone to hold the operational backbone together.\n\nThat\'s me. 👋', tags: ['#QuoteCard','#RealEstateVA','#WorkSmart','#AuVA'], type: 'Quote / Brand', time: '7:30 AM AEST', status: 'idea' },
+      { day: 21, platform: 'Twitter/X', title: 'AU Property Spring Outlook', caption: 'Spring 2026 AU property market outlook: CoreLogic forecast shows listing volumes up 18% YoY in Sept–Oct.\n\nThat\'s 18% more admin, follow-ups, OFI prep, and vendor management.\n\nAgents: do you have the support infrastructure for that?', tags: ['#AustralianProperty','#SpringMarket2026','#RealEstateVA'], type: 'Timely Hook', time: '10:00 AM AEST', status: 'idea' },
+      // Week 4
+      { day: 22, platform: 'LinkedIn',  title: 'Month 1 Wrap + Lessons Learned', caption: '📊 30 days of content. Here\'s what I learned:\n\n📈 LinkedIn: Highest engagement on "5 Tasks to Delegate" and the client win post\n📘 Facebook: Education posts (Form 6, Console/PropertyMe) outperformed all\n📸 Instagram: Carousel format gets 3x the saves vs single images\n🐦 Twitter/X: Short takes with AU market stats punch above weight\n\nThe format that consistently performed:\n👉 Specific + practical + AU-specific = engagement.\n\nMonth 2 plan: Double down on education + more client testimonials.\n\nFollowing this journey? Follow me for Month 2.', tags: ['#ContentMarketing','#BuildingInPublic','#VirtualAssistant','#RealEstateVA'], type: 'Wrap-Up', time: '8:00 AM AEST', status: 'idea' },
+      { day: 23, platform: 'Facebook',  title: 'Open Application Post', caption: '📣 Now Accepting 1 New Client — July 2026\n\nI currently have capacity for one additional AU real estate agency.\n\nWhat I offer:\n🏡 Listings management (Domain, REA Group)\n📋 CRM admin (Rex, Console Cloud, PropertyMe)\n📧 Vendor & buyer comms\n🗂️ Settlement coordination support\n📊 Weekly activity reporting\n\nRate: Starting at $3,000 AUD/month (retainer)\nTrial: 2-week trial available\nTimezone: AEST hours\n\nDM me or visit my portfolio: mymo-remote.github.io/jmm-magalona', tags: ['#NowHiring','#VirtualAssistant','#AustralianRealEstate','#RemoteWork'], type: 'CTA / Open', time: '9:00 AM AEST', status: 'idea' },
+      { day: 25, platform: 'Instagram', title: 'Testimonial Graphic', caption: '"John Mark handled our entire inbox and listing uploads for 3 weeks while I was at a conference. I came back to a clean CRM and 0 missed follow-ups. Exactly what we needed." — Agency Principal, Queensland 🇦🇺\n\nThis is what I do.\n\n💬 Want to see if we\'re a fit? Link in bio.', tags: ['#Testimonial','#ClientReview','#RealEstateVA','#AuVA'], type: 'Social Proof', time: '7:30 AM AEST', status: 'idea' },
+      { day: 27, platform: 'LinkedIn',  title: 'Final CTA — Book a Discovery Call', caption: '📞 Last week of the month. One spot left.\n\nIf you\'re an AU real estate agency spending more than 2 hours/day on admin — I want to talk.\n\nHere\'s what the next 30 days could look like:\n\nWeek 1: Systems audit + onboarding\nWeek 2: Full inbox & CRM management begins\nWeek 3: First batch of vendor comms handled\nWeek 4: 10+ hours reclaimed per week\n\nNo lock-in. 2-week trial available.\n\n👉 Book a 20-min call: mymo-remote.github.io/jmm-magalona', tags: ['#DiscoveryCall','#VirtualAssistant','#AuRealEstate','#Hire'], type: 'CTA', time: '8:00 AM AEST', status: 'idea' },
+      { day: 28, platform: 'Instagram', title: 'Thank You / End of Month', caption: '30 days of content. 30 days of showing up. 🙏\n\nThank you to everyone who liked, commented, shared, and reached out this month.\n\nTo the AU agents who took a chance on a conversation — I appreciate every one of you.\n\nMonth 2 starts tomorrow. More content, more value, more proof.\n\nIf this helped you think differently about what a VA can do for your business — that\'s the whole point.\n\nSee you tomorrow. 👊', tags: ['#ThankYou','#RealEstateVA','#30Days','#AustraliaVA'], type: 'Engagement', time: '7:00 AM AEST', status: 'idea' },
+    ];
+
+    const STATUS_COLORS = {
+      done: { bg: 'rgba(16,185,129,0.12)', text: '#065f46', label: '✓ Done' },
+      scheduled: { bg: 'rgba(59,130,246,0.12)', text: '#1e40af', label: '◷ Scheduled' },
+      draft: { bg: 'rgba(245,158,11,0.12)', text: '#92400e', label: '✎ Draft' },
+      idea: { bg: 'rgba(100,116,139,0.1)', text: '#475569', label: '◯ Idea' }
+    };
+
+    let currentYear = 2026, currentMonth = 6; // 0-indexed July
+    let currentFilter = 'all';
+    let activePostId = null;
+
+    function buildFilters() {
+      const fb = document.getElementById('filterBtns');
+      const all = [{ key: 'all', label: 'All Platforms', bg: '#e2e8f0', active: '#334155', text: '#334155' }]
+        .concat(Object.keys(PLATFORMS).map(p => ({ key: p, label: p, bg: PLATFORMS[p].bg, active: PLATFORMS[p].color, text: PLATFORMS[p].text })));
+      fb.innerHTML = all.map(f => `<button class="filter-btn ${currentFilter===f.key?'active':''}" style="${currentFilter===f.key?`background:${f.active};border-color:${f.active};`:`background:${f.bg};color:${f.text};border-color:${f.bg};`}" onclick="setFilter('${f.key}')">${f.label}</button>`).join('');
+    }
+
+    function setFilter(f) {
+      currentFilter = f;
+      buildFilters();
+      renderStats();
+      renderCalendar();
+      if (document.getElementById('listView').style.display !== 'none') renderList();
+    }
+
+    function filteredPosts() {
+      return currentFilter === 'all' ? POSTS : POSTS.filter(p => p.platform === currentFilter);
+    }
+
+    function renderStats() {
+      const posts = filteredPosts();
+      const done = posts.filter(p=>p.status==='done').length;
+      const sched = posts.filter(p=>p.status==='scheduled').length;
+      const draft = posts.filter(p=>p.status==='draft').length;
+      const idea = posts.filter(p=>p.status==='idea').length;
+      document.getElementById('statsBar').innerHTML = `
+        <div class="stat"><div class="stat-num">${posts.length}</div><div class="stat-label">Total Posts</div></div>
+        <div class="stat"><div class="stat-num" style="color:var(--green)">${done}</div><div class="stat-label">Published</div></div>
+        <div class="stat"><div class="stat-num" style="color:var(--blue)">${sched}</div><div class="stat-label">Scheduled</div></div>
+        <div class="stat"><div class="stat-num" style="color:#b45309">${draft}</div><div class="stat-label">Draft</div></div>
+        <div class="stat"><div class="stat-num" style="color:var(--gray-400)">${idea}</div><div class="stat-label">Ideas</div></div>
+        <div class="stat"><div class="stat-num">${Math.round(posts.filter(p=>p.status==='done').length/Math.max(posts.length,1)*100)}%</div><div class="stat-label">Completion</div></div>`;
+    }
+
+    function renderCalendar() {
+      const grid = document.getElementById('calGrid');
+      const label = document.getElementById('monthLabel');
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      label.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      const daysInMonth = new Date(currentYear, currentMonth+1, 0).getDate();
+      const today = new Date();
+      const posts = filteredPosts();
+      const postsByDay = {};
+      posts.forEach(p => { if (!postsByDay[p.day]) postsByDay[p.day] = []; postsByDay[p.day].push(p); });
+
+      let html = '';
+      for (let i = 0; i < firstDay; i++) html += `<div class="cal-cell other-month"></div>`;
+      for (let d = 1; d <= daysInMonth; d++) {
+        const isToday = today.getFullYear()===currentYear && today.getMonth()===currentMonth && today.getDate()===d;
+        const dayPosts = postsByDay[d] || [];
+        const chips = dayPosts.slice(0,2).map(p => {
+          const pl = PLATFORMS[p.platform];
+          const sc = STATUS_COLORS[p.status];
+          return `<span class="post-chip" style="background:${sc.bg};color:${sc.text}" onclick="openPost(${POSTS.indexOf(p)},event)">${pl.emoji} ${p.platform}</span>`;
+        }).join('');
+        const more = dayPosts.length > 2 ? `<div class="more-chip">+${dayPosts.length-2} more</div>` : '';
+        html += `<div class="cal-cell ${isToday?'today':''} ${dayPosts.length?'has-content':''}"><div class="cell-date">${d}</div>${chips}${more}</div>`;
+      }
+      grid.innerHTML = html;
+    }
+
+    function renderList() {
+      const lv = document.getElementById('listView');
+      const posts = filteredPosts();
+      const weeks = [
+        { label: 'Week 1 — Days 1–7', days: [1,2,3,4,5,6,7] },
+        { label: 'Week 2 — Days 8–14', days: [8,9,10,11,12,13,14] },
+        { label: 'Week 3 — Days 15–21', days: [15,16,17,18,19,20,21] },
+        { label: 'Week 4 — Days 22–30', days: [22,23,24,25,26,27,28,29,30] },
+      ];
+      lv.innerHTML = weeks.map(w => {
+        const wPosts = posts.filter(p => w.days.includes(p.day));
+        if (!wPosts.length) return '';
+        return `<div class="list-week">
+          <div class="week-label">${w.label}</div>
+          ${wPosts.map(p => {
+            const pl = PLATFORMS[p.platform];
+            const sc = STATUS_COLORS[p.status];
+            const idx = POSTS.indexOf(p);
+            return `<div class="list-row" onclick="openPost(${idx},event)">
+              <div class="list-date">Day ${p.day}</div>
+              <div class="list-platform" style="color:${pl.color}">${pl.emoji} ${p.platform}</div>
+              <div class="list-content"><div class="list-title">${p.title}</div><div class="list-desc">${p.type} · ${p.time}</div></div>
+              <div class="list-status status-${p.status}" style="background:${sc.bg};color:${sc.text}">${sc.label}</div>
+            </div>`;
+          }).join('')}
+        </div>`;
+      }).join('');
+    }
+
+    function openPost(idx, event) {
+      event && event.stopPropagation();
+      const p = POSTS[idx];
+      const pl = PLATFORMS[p.platform];
+      const sc = STATUS_COLORS[p.status];
+      document.getElementById('modalTitle').textContent = `Day ${p.day} — ${p.platform}`;
+      document.getElementById('modalBody').innerHTML = `
+        <div class="modal-platform-row">
+          <span class="modal-platform-badge" style="background:${pl.bg};color:${pl.text}">${pl.emoji} ${p.platform}</span>
+          <span class="modal-date">Day ${p.day} · ${p.time}</span>
+          <span class="list-status" style="background:${sc.bg};color:${sc.text};margin-left:auto">${sc.label}</span>
+        </div>
+        <div class="modal-caption">${p.caption.replace(/\n/g,'<br>')}</div>
+        <div class="modal-tags">${p.tags.map(t=>`<span class="modal-tag">${t}</span>`).join('')}</div>
+        <div class="modal-meta">
+          <div class="modal-meta-item"><div class="modal-meta-label">Content Type</div><div class="modal-meta-value">${p.type}</div></div>
+          <div class="modal-meta-item"><div class="modal-meta-label">Post Time</div><div class="modal-meta-value">${p.time}</div></div>
+        </div>`;
+      document.getElementById('overlay').classList.add('open');
+    }
+
+    function closeModal(e) { if (e.target === document.getElementById('overlay')) closeModalBtn(); }
+    function closeModalBtn() { document.getElementById('overlay').classList.remove('open'); }
+
+    function setView(v) {
+      document.getElementById('calendarView').style.display = v==='calendar' ? '' : 'none';
+      document.getElementById('listView').style.display = v==='list' ? 'block' : 'none';
+      document.getElementById('calBtn').classList.toggle('active', v==='calendar');
+      document.getElementById('listBtn').classList.toggle('active', v==='list');
+      if (v==='list') renderList();
+    }
+
+    function prevMonth() { currentMonth--; if(currentMonth<0){currentMonth=11;currentYear--;} renderCalendar(); }
+    function nextMonth() { currentMonth++; if(currentMonth>11){currentMonth=0;currentYear++;} renderCalendar(); }
+
+    // Init
+    buildFilters();
+    renderStats();
+    renderCalendar();
+  </script>
+</body>
+</html>

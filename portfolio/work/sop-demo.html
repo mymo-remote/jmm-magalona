@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Client Onboarding SOP — John Mark Magalona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0d1b2a; --gold: #d4b453; --gold-dim: rgba(212,180,83,0.1);
+      --gold-border: rgba(212,180,83,0.25); --green: #10b981; --blue: #3b82f6;
+      --orange: #f59e0b; --red: #ef4444;
+      --white: #fff; --gray-50: #f9fafb; --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb; --gray-400: #9ca3af; --gray-600: #6b7280;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: #f8fafc; color: #1e293b; }
+    a { color: inherit; text-decoration: none; }
+
+    .header {
+      background: var(--navy); padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .back-link { font-size: 0.78rem; color: rgba(255,255,255,0.55); transition: color 0.2s; }
+    .back-link:hover { color: var(--gold); }
+    .header-title { font-family: var(--serif); font-size: 1.05rem; color: var(--white); }
+    .header-title span { color: var(--gold); }
+    .header-badge {
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      color: var(--gold); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 4px;
+    }
+
+    .demo-banner {
+      background: rgba(212,180,83,0.12); border-bottom: 1px solid var(--gold-border);
+      padding: 8px 28px; text-align: center;
+      font-size: 0.72rem; color: #7a5f1a; font-weight: 500;
+    }
+
+    .page-wrap { max-width: 900px; margin: 0 auto; padding: 32px 24px; }
+    .sop-header { margin-bottom: 32px; }
+    .sop-meta { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .sop-tag {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.07em; padding: 4px 10px; border-radius: 4px;
+    }
+    .tag-navy { background: var(--navy); color: var(--white); }
+    .tag-gold { background: var(--gold-dim); border: 1px solid var(--gold-border); color: #7a5f1a; }
+    .sop-title { font-family: var(--serif); font-size: 2rem; margin-bottom: 8px; }
+    .sop-subtitle { font-size: 0.9rem; color: var(--gray-600); line-height: 1.6; max-width: 600px; }
+
+    /* PROGRESS BAR */
+    .progress-wrap { margin-bottom: 32px; }
+    .progress-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px; font-size: 0.82rem; font-weight: 600;
+    }
+    .progress-pct { color: var(--green); font-weight: 700; }
+    .progress-bar {
+      height: 8px; background: var(--gray-200); border-radius: 100px; overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%; background: var(--green); border-radius: 100px;
+      transition: width 0.5s ease;
+    }
+
+    /* PIPELINE STAGES */
+    .pipeline-nav { display: flex; gap: 0; margin-bottom: 28px; overflow-x: auto; }
+    .stage-btn {
+      flex: 1; min-width: 120px; padding: 12px 16px; border: none; cursor: pointer;
+      background: var(--gray-100); color: var(--gray-600); font-size: 0.78rem;
+      font-weight: 600; text-align: left; border-right: 2px solid var(--white);
+      transition: background 0.2s, color 0.2s; position: relative;
+    }
+    .stage-btn:last-child { border-right: none; }
+    .stage-btn.active { background: var(--navy); color: var(--white); }
+    .stage-btn.completed { background: var(--green); color: var(--white); }
+    .stage-btn .stage-num {
+      display: block; font-size: 0.62rem; opacity: 0.65; margin-bottom: 3px;
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+    .stage-btn .stage-check {
+      position: absolute; top: 10px; right: 12px; font-size: 0.8rem;
+    }
+
+    /* STAGE CONTENT */
+    .stage-content { display: none; }
+    .stage-content.active { display: block; }
+    .stage-card {
+      background: var(--white); border-radius: 12px; border: 1px solid var(--gray-200);
+      overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .stage-card-header {
+      background: var(--navy); padding: 20px 24px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .stage-card-title { font-family: var(--serif); font-size: 1.2rem; color: var(--white); }
+    .stage-card-badge {
+      background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.85);
+      font-size: 0.68rem; font-weight: 700; padding: 4px 10px; border-radius: 4px;
+    }
+    .stage-card-body { padding: 24px; }
+    .task-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+    .task-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 13px 16px; background: var(--gray-50);
+      border: 1px solid var(--gray-200); border-radius: 8px; cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .task-item.done { background: rgba(16,185,129,0.05); border-color: rgba(16,185,129,0.3); }
+    .task-item:hover:not(.done) { border-color: var(--gold-border); background: var(--gold-dim); }
+    .check-box {
+      width: 20px; height: 20px; border-radius: 5px; flex-shrink: 0;
+      border: 2px solid var(--gray-300); margin-top: 1px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.7rem; transition: background 0.2s, border-color 0.2s;
+    }
+    .task-item.done .check-box { background: var(--green); border-color: var(--green); color: var(--white); }
+    .task-details { flex: 1; }
+    .task-name { font-size: 0.85rem; font-weight: 600; margin-bottom: 3px; }
+    .task-item.done .task-name { text-decoration: line-through; color: var(--gray-400); }
+    .task-meta { display: flex; gap: 10px; flex-wrap: wrap; }
+    .task-owner { font-size: 0.68rem; color: var(--gray-400); }
+    .task-tool {
+      font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 3px;
+      background: var(--navy); color: var(--gold);
+    }
+    .task-deadline {
+      font-size: 0.65rem; font-weight: 600; padding: 2px 7px; border-radius: 3px;
+      background: var(--gray-100); color: var(--gray-600);
+    }
+
+    .stage-note {
+      background: rgba(212,180,83,0.08); border: 1px solid var(--gold-border);
+      border-radius: 8px; padding: 14px 16px; font-size: 0.82rem;
+      color: #5a4a1a; line-height: 1.6; margin-bottom: 20px;
+    }
+    .stage-note strong { display: block; margin-bottom: 4px; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.07em; }
+
+    .stage-nav { display: flex; gap: 10px; }
+    .btn-next {
+      flex: 1; background: var(--navy); color: var(--white); font-weight: 700;
+      font-size: 0.85rem; padding: 12px; border-radius: 8px; border: none;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-next:hover { opacity: 0.88; }
+    .btn-prev {
+      background: var(--gray-100); color: var(--gray-600); font-weight: 600;
+      font-size: 0.85rem; padding: 12px 20px; border-radius: 8px; border: none;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-prev:hover { background: var(--gray-200); }
+
+    .completion-card {
+      text-align: center; padding: 48px 24px;
+      background: var(--white); border-radius: 12px; border: 1px solid var(--gray-200);
+    }
+    .completion-icon { font-size: 3rem; margin-bottom: 16px; }
+    .completion-title { font-family: var(--serif); font-size: 1.6rem; margin-bottom: 10px; }
+    .completion-sub { font-size: 0.9rem; color: var(--gray-600); max-width: 400px; margin: 0 auto 28px; line-height: 1.7; }
+    .completion-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-gold { background: var(--gold); color: var(--navy); font-weight: 700; font-size: 0.85rem; padding: 12px 28px; border-radius: 7px; border: none; cursor: pointer; }
+    .btn-outline { background: transparent; color: var(--navy); font-weight: 600; font-size: 0.85rem; padding: 12px 28px; border-radius: 7px; border: 2px solid var(--gray-200); cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <div class="demo-banner">
+    <strong>Interactive Demo</strong> — Click tasks to check them off. Navigate through all 5 onboarding stages.
+  </div>
+
+  <div class="header">
+    <div class="header-left">
+      <a href="index.html" class="back-link">← Portfolio</a>
+      <div class="header-title">JMM <span>SOP</span></div>
+    </div>
+    <div class="header-badge">5-Stage Onboarding</div>
+  </div>
+
+  <div class="page-wrap">
+    <div class="sop-header">
+      <div class="sop-meta">
+        <span class="sop-tag tag-navy">SOP Template</span>
+        <span class="sop-tag tag-gold">AU Operations VA</span>
+      </div>
+      <h1 class="sop-title">New Client Onboarding SOP</h1>
+      <p class="sop-subtitle">A structured 5-stage process for onboarding new clients — from initial inquiry to completed first job. Adapted for Australian field service businesses.</p>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span id="progressLabel">Stage 1 of 5 · 0 tasks complete</span>
+        <span class="progress-pct" id="progressPct">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+
+    <div class="pipeline-nav" id="pipelineNav"></div>
+
+    <div id="stageContents"></div>
+  </div>
+
+  <script>
+    const STAGES = [
+      {
+        id: 0, title: 'Inquiry Received', badge: 'Day 1',
+        note: { head: 'VA Action', body: 'All new inquiries land in the shared inbox. Acknowledge within 2 hours, log to CRM (HubSpot), assign deal stage "New Lead". Send templated response with service overview PDF.' },
+        tasks: [
+          { name: 'Acknowledge inquiry via email (template: ONBOARD-01)', owner: 'VA', tool: 'Gmail', deadline: 'Day 1 · 2hr SLA' },
+          { name: 'Create contact record in CRM with full details', owner: 'VA', tool: 'HubSpot', deadline: 'Day 1' },
+          { name: 'Send service overview PDF and pricing guide', owner: 'VA', tool: 'Gmail + Drive', deadline: 'Day 1' },
+          { name: 'Flag enquiry in team Slack channel', owner: 'VA', tool: 'Slack', deadline: 'Day 1' },
+        ]
+      },
+      {
+        id: 1, title: 'Qualification Call', badge: 'Day 1–2',
+        note: { head: 'VA Action', body: 'Schedule discovery call using Calendly. Prepare call brief: prospect background, property portfolio size, software used (Jobber, ServiceM8, etc.), pain points from inquiry notes.' },
+        tasks: [
+          { name: 'Send Calendly booking link for 20-min discovery call', owner: 'VA', tool: 'Calendly', deadline: 'Day 1' },
+          { name: 'Prepare pre-call brief (template: QUALIFY-01)', owner: 'VA', tool: 'Notion', deadline: 'Before call' },
+          { name: 'Conduct or attend qualification call', owner: 'Principal', tool: 'Zoom', deadline: 'Day 2' },
+          { name: 'Log call notes and qualification score in CRM', owner: 'VA', tool: 'HubSpot', deadline: 'Within 1hr post-call' },
+          { name: 'Move deal to "Qualified" or archive if no fit', owner: 'VA', tool: 'HubSpot', deadline: 'Day 2' },
+        ]
+      },
+      {
+        id: 2, title: 'Proposal & Agreement', badge: 'Day 3–5',
+        note: { head: 'VA Action', body: 'Customise the proposal template with client-specific scope, hours, and rate. Send via DocuSign for e-signature. Track open rate and follow up if not opened in 24hrs.' },
+        tasks: [
+          { name: 'Customise proposal from template (PROP-02)', owner: 'VA', tool: 'Google Docs', deadline: 'Day 3' },
+          { name: 'Send proposal via DocuSign', owner: 'VA', tool: 'DocuSign', deadline: 'Day 3' },
+          { name: 'Follow up if not opened within 24 hours', owner: 'VA', tool: 'Gmail', deadline: 'Day 4' },
+          { name: 'Confirm signed agreement received', owner: 'VA', tool: 'DocuSign', deadline: 'Day 5' },
+          { name: 'Update CRM to "Proposal Accepted"', owner: 'VA', tool: 'HubSpot', deadline: 'Day 5' },
+        ]
+      },
+      {
+        id: 3, title: 'Onboarding Setup', badge: 'Day 5–7',
+        note: { head: 'VA Action', body: 'Once agreement is signed, initiate full onboarding. Create client folder in Drive, set up Notion workspace, configure communication channels. Send welcome email with login credentials and access links.' },
+        tasks: [
+          { name: 'Create client folder in Google Drive (template structure)', owner: 'VA', tool: 'Google Drive', deadline: 'Day 5' },
+          { name: 'Set up client Notion workspace from template', owner: 'VA', tool: 'Notion', deadline: 'Day 6' },
+          { name: 'Request access to client software (Jobber / ServiceM8)', owner: 'VA', tool: 'Email', deadline: 'Day 6' },
+          { name: 'Create client record in project tracker', owner: 'VA', tool: 'Airtable', deadline: 'Day 6' },
+          { name: 'Send welcome email with onboarding checklist', owner: 'VA', tool: 'Gmail', deadline: 'Day 7' },
+          { name: 'Schedule kickoff call for Day 8', owner: 'VA', tool: 'Calendly', deadline: 'Day 7' },
+        ]
+      },
+      {
+        id: 4, title: 'First Job Completed', badge: 'Day 8–10',
+        note: { head: 'VA Action', body: 'Kickoff call confirms workflow and communication preferences. Run first job end-to-end under supervision. Debrief after first job to capture any process adjustments. Move client to "Active" in CRM.' },
+        tasks: [
+          { name: 'Run kickoff call — confirm workflow, tools, preferences', owner: 'VA + Principal', tool: 'Zoom', deadline: 'Day 8' },
+          { name: 'Complete first job end-to-end (supervised)', owner: 'VA', tool: 'Client software', deadline: 'Day 9' },
+          { name: 'Debrief: log feedback and any SOP adjustments', owner: 'VA', tool: 'Notion', deadline: 'Day 9' },
+          { name: 'Update client record to "Active" in CRM', owner: 'VA', tool: 'HubSpot', deadline: 'Day 10' },
+          { name: 'Schedule 30-day review', owner: 'VA', tool: 'Calendly', deadline: 'Day 10' },
+          { name: 'Send first invoice (if applicable)', owner: 'VA', tool: 'Xero', deadline: 'Day 10' },
+        ]
+      },
+    ];
+
+    let currentStage = 0;
+    const taskDone = STAGES.map(s => s.tasks.map(() => false));
+
+    function getTotalTasks() { return STAGES.reduce((sum, s) => sum + s.tasks.length, 0); }
+    function getDoneTasks() { return taskDone.reduce((sum, arr) => sum + arr.filter(Boolean).length, 0); }
+
+    function updateProgress() {
+      const total = getTotalTasks();
+      const done = getDoneTasks();
+      const pct = Math.round((done / total) * 100);
+      document.getElementById('progressFill').style.width = pct + '%';
+      document.getElementById('progressPct').textContent = pct + '%';
+      document.getElementById('progressLabel').textContent = `Stage ${currentStage + 1} of 5 · ${done} of ${total} tasks complete`;
+    }
+
+    function buildNav() {
+      const nav = document.getElementById('pipelineNav');
+      nav.innerHTML = STAGES.map((s, i) => {
+        const allDone = taskDone[i].every(Boolean);
+        const cls = i === currentStage ? 'active' : allDone ? 'completed' : '';
+        return `<button class="stage-btn ${cls}" onclick="goToStage(${i})">
+          <span class="stage-num">Stage ${i + 1}</span>
+          ${s.title}
+          ${allDone ? '<span class="stage-check">✓</span>' : ''}
+        </button>`;
+      }).join('');
+    }
+
+    function buildContent() {
+      const container = document.getElementById('stageContents');
+      container.innerHTML = STAGES.map((s, si) => `
+        <div class="stage-content ${si === currentStage ? 'active' : ''}" id="stage-${si}">
+          ${si < STAGES.length ? `
+          <div class="stage-card">
+            <div class="stage-card-header">
+              <div class="stage-card-title">Stage ${si + 1}: ${s.title}</div>
+              <div class="stage-card-badge">${s.badge}</div>
+            </div>
+            <div class="stage-card-body">
+              <div class="stage-note"><strong>${s.note.head}</strong>${s.note.body}</div>
+              <div class="task-list">
+                ${s.tasks.map((t, ti) => `
+                  <div class="task-item ${taskDone[si][ti] ? 'done' : ''}" onclick="toggleTask(${si},${ti})">
+                    <div class="check-box">${taskDone[si][ti] ? '✓' : ''}</div>
+                    <div class="task-details">
+                      <div class="task-name">${t.name}</div>
+                      <div class="task-meta">
+                        <span class="task-owner">Owner: ${t.owner}</span>
+                        <span class="task-tool">${t.tool}</span>
+                        <span class="task-deadline">${t.deadline}</span>
+                      </div>
+                    </div>
+                  </div>`).join('')}
+              </div>
+              <div class="stage-nav">
+                ${si > 0 ? `<button class="btn-prev" onclick="goToStage(${si-1})">← Previous</button>` : ''}
+                ${si < STAGES.length - 1
+                  ? `<button class="btn-next" onclick="goToStage(${si+1})">Next Stage →</button>`
+                  : `<button class="btn-next" onclick="goToStage(${si+1})">Complete Onboarding ✓</button>`}
+              </div>
+            </div>
+          </div>` : ''}
+        </div>`).join('') + `
+        <div class="stage-content ${currentStage === STAGES.length ? 'active' : ''}" id="stage-${STAGES.length}">
+          <div class="completion-card">
+            <div class="completion-icon">🎉</div>
+            <h2 class="completion-title">Onboarding Complete</h2>
+            <p class="completion-sub">All 5 stages completed. Client is now active and the first job has been delivered. 30-day review is scheduled.</p>
+            <div class="completion-btns">
+              <button class="btn-gold" onclick="resetSOP()">Start Over ↺</button>
+              <a href="index.html" class="btn-outline">Back to Portfolio</a>
+            </div>
+          </div>
+        </div>`;
+    }
+
+    function goToStage(i) {
+      currentStage = Math.min(i, STAGES.length);
+      buildNav();
+      buildContent();
+      updateProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleTask(si, ti) {
+      taskDone[si][ti] = !taskDone[si][ti];
+      buildNav();
+      buildContent();
+      updateProgress();
+    }
+
+    function resetSOP() {
+      STAGES.forEach((s, si) => s.tasks.forEach((_, ti) => { taskDone[si][ti] = false; }));
+      goToStage(0);
+    }
+
+    buildNav();
+    buildContent();
+    updateProgress();
+  </script>
+</body>
+</html>
