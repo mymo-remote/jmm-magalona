@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Resume — John Mark Magalona. AU Remote VA. 9 years professional experience. HubSpot Certified. C2 English. Available AEST.">
+  <meta property="og:title" content="Resume — John Mark Magalona · AU Remote VA">
+  <meta property="og:description" content="9 years professional experience. HubSpot Certified. C2 English (EF SET). 120hr TEFL. Available full-time AEST. Specialising in AU real estate admin.">
+  <meta property="og:image" content="../assets/photo.jpg">
+  <meta property="og:url" content="https://mymo-remote.github.io/jmm-magalona/portfolio/resume/">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Resume — John Mark Magalona</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --navy: #0d1b2a; --navy-mid: #162840; --navy-light: #1e3a5f;
+      --gold: #d4b453; --gold-light: #dfc06b;
+      --gold-dim: rgba(212,180,83,0.1); --gold-border: rgba(212,180,83,0.22);
+      --cream: #f8f5ee; --white: #ffffff;
+      --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+      --gray-400: #9ca3af; --gray-600: #6b7280; --gray-900: #111827;
+      --green: #10b981;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, -apple-system, sans-serif;
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-md: 0 4px 24px rgba(0,0,0,0.09);
+      --radius: 12px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--sans); background: var(--white); color: var(--gray-900); overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    .nav { position: fixed; inset: 0 0 auto 0; z-index: 999; padding: 20px 48px; display: flex; align-items: center; justify-content: space-between; transition: background 0.3s, padding 0.3s, box-shadow 0.3s; }
+    .nav.solid { background: rgba(13,27,42,0.96); backdrop-filter: blur(12px); padding: 13px 48px; box-shadow: 0 2px 20px rgba(0,0,0,0.3); }
+    .nav-logo { font-family: var(--serif); font-size: 1.05rem; font-weight: 700; color: var(--white); }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; align-items: center; gap: 28px; list-style: none; }
+    .nav-links a { font-size: 0.78rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: rgba(255,255,255,0.65); transition: color 0.2s; }
+    .nav-links a:hover { color: var(--gold); }
+    .nav-cta { background: var(--gold) !important; color: var(--navy) !important; padding: 9px 20px !important; border-radius: 6px; font-weight: 700 !important; text-transform: none !important; transition: background 0.2s !important; }
+    .nav-cta:hover { background: var(--gold-light) !important; }
+
+    /* PAGE HERO */
+    .page-hero {
+      background: var(--navy);
+      background-image: radial-gradient(ellipse 55% 50% at 85% 45%, rgba(212,180,83,0.07) 0%, transparent 65%);
+      padding: 140px 48px 80px; position: relative;
+    }
+    .page-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg,transparent,var(--gold),transparent); opacity: 0.35; }
+    .ph-wrap { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center; }
+    .ph-eyebrow { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px; }
+    .ph-wrap h1 { font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 2.8rem); font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 14px; }
+    .ph-wrap h1 em { font-style: italic; color: var(--gold); }
+    .ph-wrap p { font-size: 0.95rem; color: rgba(255,255,255,0.52); line-height: 1.72; }
+    .ph-cta { display: flex; flex-direction: column; gap: 12px; flex-shrink: 0; }
+    .btn-gold { display: inline-flex; align-items: center; gap: 8px; background: var(--gold); color: var(--navy); font-weight: 700; font-size: 0.88rem; padding: 13px 28px; border-radius: 6px; transition: background 0.2s, transform 0.2s; white-space: nowrap; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-ghost { display: inline-flex; align-items: center; gap: 8px; background: transparent; color: rgba(255,255,255,0.65); font-weight: 500; font-size: 0.88rem; padding: 13px 28px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2); transition: border-color 0.2s, color 0.2s; white-space: nowrap; }
+    .btn-ghost:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* RESUME BODY */
+    .resume-body { padding: 72px 48px; background: var(--cream); }
+    .resume-wrap { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 280px 1fr; gap: 56px; align-items: start; }
+
+    /* SIDEBAR */
+    .sidebar { display: flex; flex-direction: column; gap: 32px; }
+    .sb-block { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 24px 20px; }
+    .sb-title { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    /* Contact */
+    .contact-list { display: flex; flex-direction: column; gap: 10px; }
+    .contact-item { display: flex; gap: 10px; align-items: flex-start; font-size: 0.8rem; color: var(--gray-600); }
+    .contact-icon { font-size: 0.9rem; flex-shrink: 0; margin-top: 1px; }
+    .contact-item a { color: var(--navy); font-weight: 500; }
+    .contact-item a:hover { color: var(--gold); }
+    /* Skills */
+    .skills-list { display: flex; flex-direction: column; gap: 12px; }
+    .skill-item { }
+    .skill-name { font-size: 0.78rem; font-weight: 500; color: var(--navy); margin-bottom: 5px; }
+    .skill-bar { height: 4px; background: var(--gray-100); border-radius: 2px; overflow: hidden; }
+    .skill-fill { height: 100%; background: var(--gold); border-radius: 2px; transition: width 1s var(--ease); width: 0; }
+    /* Tools tags */
+    .tools-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tool-tag { background: var(--gray-50); border: 1px solid var(--gray-100); font-size: 0.7rem; font-weight: 500; color: var(--gray-600); padding: 4px 9px; border-radius: 4px; }
+    /* Certs */
+    .cert-list { display: flex; flex-direction: column; gap: 10px; }
+    .cert-item { padding: 12px 14px; background: var(--gray-50); border: 1px solid var(--gray-100); border-radius: 8px; }
+    .cert-name { font-size: 0.78rem; font-weight: 600; color: var(--navy); margin-bottom: 2px; }
+    .cert-detail { font-size: 0.68rem; color: var(--gray-400); }
+    .cert-link { display: inline-block; margin-top: 6px; font-size: 0.68rem; font-weight: 600; color: var(--gold); }
+
+    /* MAIN CONTENT */
+    .main-content { }
+    /* Section headers */
+    .res-section { margin-bottom: 40px; }
+    .res-section-title {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--gold);
+      padding-bottom: 10px; margin-bottom: 20px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    /* Experience items */
+    .exp-item { margin-bottom: 28px; padding-bottom: 28px; border-bottom: 1px solid var(--gray-100); }
+    .exp-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 6px; flex-wrap: wrap; }
+    .exp-title { font-family: var(--serif); font-size: 1rem; font-weight: 700; color: var(--navy); }
+    .exp-date { font-size: 0.72rem; font-weight: 600; color: var(--gold); background: var(--gold-dim); padding: 4px 10px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; }
+    .exp-company { font-size: 0.82rem; font-weight: 500; color: var(--gray-600); margin-bottom: 10px; }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+    .exp-bullets li { font-size: 0.83rem; color: var(--gray-600); line-height: 1.65; padding-left: 16px; position: relative; }
+    .exp-bullets li::before { content: '—'; position: absolute; left: 0; color: var(--gold); font-weight: 700; }
+    /* Summary */
+    .summary { font-size: 0.95rem; color: var(--gray-600); line-height: 1.8; padding: 20px 22px; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius); border-left: 4px solid var(--gold); margin-bottom: 32px; }
+
+    /* FOOTER */
+    footer { background: var(--navy); padding: 30px 48px; }
+    .foot-wrap { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .foot-logo { font-family: var(--serif); font-size: 0.95rem; font-weight: 700; color: var(--white); }
+    .foot-logo span { color: var(--gold); }
+    .foot-nav { display: flex; gap: 20px; list-style: none; }
+    .foot-nav a { font-size: 0.74rem; color: rgba(255,255,255,0.35); transition: color 0.2s; }
+    .foot-nav a:hover { color: var(--gold); }
+
+    /* REVEAL */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.6s var(--ease), transform 0.6s var(--ease); }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+
+    /* HAMBURGER */
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; padding:8px; z-index:1001; }
+    .hamburger span { display:block; width:24px; height:2px; background:var(--white); border-radius:2px; transition:transform 0.3s, opacity 0.3s; }
+    .hamburger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+    .mobile-menu { display:none; position:fixed; inset:0; background:rgba(13,27,42,0.97); backdrop-filter:blur(16px); z-index:1000; flex-direction:column; align-items:center; justify-content:center; gap:32px; }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a { font-size:1.4rem; font-family:var(--serif); color:var(--white); font-weight:600; transition:color 0.2s; }
+    .mobile-menu a:hover { color:var(--gold); }
+    .mobile-menu .mobile-cta { margin-top:8px; background:var(--gold); color:var(--navy); padding:14px 36px; border-radius:6px; font-size:1rem; font-family:var(--sans); font-weight:700; }
+
+    @media (max-width: 700px) {
+      .hamburger { display: flex; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 900px) {
+      .ph-wrap { grid-template-columns: 1fr; }
+      .ph-cta { flex-direction: row; flex-wrap: wrap; }
+      .resume-wrap { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .nav { padding: 14px 24px; } .nav.solid { padding: 11px 24px; }
+      .page-hero { padding: 100px 24px 60px; }
+      .resume-body { padding: 40px 24px; }
+      footer { padding: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="nav" id="nav">
+    <div class="nav-logo">JMM<span>.</span></div>
+    <ul class="nav-links">
+      <li><a href="../">Home</a></li>
+      <li><a href="../real-estate/">Real Estate</a></li>
+      <li><a href="../work/">Portfolio</a></li>
+      <li><a href="mailto:magalona.remote@gmail.com?subject=VA%20Enquiry" class="nav-cta">Hire Me</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true">
+    <a href="../">Home</a>
+    <a href="../real-estate/">Real Estate</a>
+    <a href="../work/">Portfolio</a>
+    <a href="index.html" aria-current="page">Resume</a>
+    <a href="mailto:magalona.remote@gmail.com?subject=VA%20Enquiry" class="mobile-cta">Hire Me</a>
+  </div>
+
+  <section class="page-hero">
+    <div class="ph-wrap">
+      <div>
+        <div class="ph-eyebrow">Resume</div>
+        <h1>John Mark<br><em>Magalona</em></h1>
+        <p>AU Real Estate &amp; Admin VA · Dumaguete City, Philippines · Available Full-Time AEST</p>
+      </div>
+      <div class="ph-cta">
+        <a href="https://drive.google.com/file/d/1UNrOhZ6FiR0b6nZ-PrEId39A3YGbHvYY/view" class="btn-gold" target="_blank" rel="noopener">Download PDF ↗</a>
+        <a href="mailto:magalona.remote@gmail.com?subject=VA%20Enquiry" class="btn-ghost">Send Enquiry →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="resume-body">
+    <div class="resume-wrap">
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+
+        <div class="sb-block reveal">
+          <div class="sb-title">Contact</div>
+          <div class="contact-list">
+            <div class="contact-item">
+              <span class="contact-icon">✉️</span>
+              <a href="mailto:magalona.remote@gmail.com">magalona.remote@gmail.com</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">💼</span>
+              <a href="https://www.linkedin.com/in/john-mark-manuel-magalona-b15536149/" target="_blank" rel="noopener">LinkedIn Profile</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">🌐</span>
+              <a href="https://mymo-remote.github.io/jmm-magalona/" target="_blank">Portfolio Site</a>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">📍</span>
+              <span>Dumaguete City, Philippines</span>
+            </div>
+            <div class="contact-item">
+              <span class="contact-icon">🕐</span>
+              <span>Available full-time · AEST</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- UPDATE: Adjust skill proficiency values (0–100) as skills develop -->
+        <div class="sb-block reveal">
+          <div class="sb-title">Core Skills</div>
+          <div class="skills-list" id="skillsList">
+            <div class="skill-item"><div class="skill-name">Written Communication</div><div class="skill-bar"><div class="skill-fill" data-pct="95"></div></div></div>
+            <div class="skill-item"><div class="skill-name">CRM Management</div><div class="skill-bar"><div class="skill-fill" data-pct="87"></div></div></div>
+            <div class="skill-item"><div class="skill-name">Calendar & Scheduling</div><div class="skill-bar"><div class="skill-fill" data-pct="92"></div></div></div>
+            <div class="skill-item"><div class="skill-name">Canva & Visual Design</div><div class="skill-bar"><div class="skill-fill" data-pct="85"></div></div></div>
+            <div class="skill-item"><div class="skill-name">SOP Writing</div><div class="skill-bar"><div class="skill-fill" data-pct="90"></div></div></div>
+            <div class="skill-item"><div class="skill-name">Social Media Management</div><div class="skill-bar"><div class="skill-fill" data-pct="82"></div></div></div>
+          </div>
+        </div>
+
+        <!-- UPDATE: Add tools as you learn them -->
+        <div class="sb-block reveal">
+          <div class="sb-title">Tools</div>
+          <div class="tools-wrap">
+            <span class="tool-tag">HubSpot CRM</span>
+            <span class="tool-tag">Google Workspace</span>
+            <span class="tool-tag">Microsoft 365</span>
+            <span class="tool-tag">Canva</span>
+            <span class="tool-tag">Notion</span>
+            <span class="tool-tag">CapCut</span>
+            <span class="tool-tag">ElevenLabs</span>
+            <span class="tool-tag">Airtable</span>
+            <span class="tool-tag">Zoom</span>
+            <span class="tool-tag">DocuSign</span>
+            <span class="tool-tag">Rex CRM</span>
+            <span class="tool-tag">Domain.com.au</span>
+            <span class="tool-tag">REA Group</span>
+          </div>
+        </div>
+
+        <!-- UPDATE: Add new certs as they are earned -->
+        <div class="sb-block reveal">
+          <div class="sb-title">Certifications</div>
+          <div class="cert-list">
+            <div class="cert-item">
+              <div class="cert-name">HubSpot Sales Hub</div>
+              <div class="cert-detail">HubSpot Academy · 2026 · Score: 87%</div>
+              <a href="https://drive.google.com/file/d/1wGEAaYhb6OENAXFLqnykve7mxgkeHRxy/view" class="cert-link" target="_blank" rel="noopener">View Certificate ↗</a>
+            </div>
+            <div class="cert-item">
+              <div class="cert-name">C2 English Proficiency</div>
+              <div class="cert-detail">EF SET · 2026 · Highest CEFR Level</div>
+              <a href="https://cert.efset.org/en/ZA1QRQ" class="cert-link" target="_blank" rel="noopener">View Certificate ↗</a>
+            </div>
+            <div class="cert-item">
+              <div class="cert-name">120hr TEFL Certificate</div>
+              <div class="cert-detail">TeacherRecord · TR2662412368 · 30/06/2026</div>
+              <a href="https://teacherrecord.com/checking/TR2662412368" class="cert-link" target="_blank" rel="noopener">Verify ↗</a>
+            </div>
+            <div class="cert-item">
+              <div class="cert-name">OIC Navigational Watch</div>
+              <div class="cert-detail">STCW · International · Active</div>
+            </div>
+            <div class="cert-item">
+              <div class="cert-name">GOC (GMDSS)</div>
+              <div class="cert-detail">STCW · International · Active</div>
+            </div>
+            <div class="cert-item">
+              <div class="cert-name">BS Marine Transportation</div>
+              <div class="cert-detail">Palawan Polytechnic College · 2016</div>
+            </div>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- MAIN CONTENT -->
+      <main class="main-content">
+
+        <div class="summary reveal">
+          Remote VA with 9 years of international professional experience, transitioning from maritime Deck Officer to full-time Australian VA. EF SET C2 English (verified), HubSpot CRM certified, and available full-time on AEST. Strong background in documentation, multi-party coordination, and operational systems — now applied to real estate admin, CRM management, and operations support for Australian clients.
+        </div>
+
+        <!-- EXPERIENCE -->
+        <div class="res-section reveal">
+          <div class="res-section-title">Experience</div>
+
+          <!-- UPDATE: Add new roles here as experience grows -->
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-title">Third Officer &amp; Assistant Safety / Admin Officer</div>
+              <div class="exp-date">2024 – 2026</div>
+            </div>
+            <div class="exp-company">TMS Tankers Ltd. · International, Sea-Based</div>
+            <ul class="exp-bullets">
+              <li>Managed bridge watchkeeping, cargo operations, and full vessel safety compliance across international voyages</li>
+              <li>Authored and maintained SOPs and emergency response documentation for crews of 20+</li>
+              <li>Led safety drills, flag-state audits, and inspection preparation — zero non-conformances recorded</li>
+              <li>Coordinated with port agents, maritime authorities, and vessel operators across multiple jurisdictions</li>
+              <li>Handled crew scheduling, voyage reporting, administrative filing, and international correspondence</li>
+            </ul>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-title">Deck Rating — Able Seaman / OS</div>
+              <div class="exp-date">2017 – 2024</div>
+            </div>
+            <div class="exp-company">Various International Vessels · Bulk Carriers &amp; Tankers</div>
+            <ul class="exp-bullets">
+              <li>Seven years of structured maritime operations across bulk carriers and tankers</li>
+              <li>Built deep foundation in process execution, compliance record keeping, and team coordination under pressure</li>
+              <li>Executed routine maintenance schedules, cargo operations, and emergency response protocols</li>
+              <li>Worked within multinational crews — high-stakes communication, documentation, and precision</li>
+            </ul>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-title">Customer Service Representative</div>
+              <div class="exp-date">2017 (3 months)</div>
+            </div>
+            <div class="exp-company">Ibex Global · BPO, Philippines</div>
+            <ul class="exp-bullets">
+              <li>Handled inbound customer service calls in a fast-paced BPO environment</li>
+              <li>Developed professional communication standards and high-volume inbox management skills</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- INDEPENDENT PROJECTS -->
+        <div class="res-section reveal">
+          <div class="res-section-title">Independent Projects &amp; Social Proof</div>
+
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-title">Social Media Manager — Perfect Cactus PH</div>
+              <div class="exp-date">2023 – Present</div>
+            </div>
+            <div class="exp-company">Facebook Page · Co-managed with Marie Magalona</div>
+            <ul class="exp-bullets">
+              <li>Grew page to 9,500+ organic followers through consistent content strategy and community engagement</li>
+              <li>Manages content creation (Canva graphics), scheduling (Meta Business Suite), and audience analytics</li>
+              <li>Maintains 4.8% engagement rate — above average for the niche</li>
+            </ul>
+          </div>
+
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-title">AI-Assisted YouTube Channel — PinoyCrimeStoriesPH</div>
+              <div class="exp-date">2025 – Present</div>
+            </div>
+            <div class="exp-company">Faceless True Crime Channel · End-to-End AI Production</div>
+            <ul class="exp-bullets">
+              <li>Manages full production pipeline: research (Claude AI), scripting, voiceover (ElevenLabs), editing (CapCut), thumbnails (Canva), SEO, and upload</li>
+              <li>Demonstrates practical command of AI tools applied to real content workflows</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- EDUCATION -->
+        <div class="res-section reveal">
+          <div class="res-section-title">Education</div>
+          <div class="exp-item">
+            <div class="exp-header">
+              <div class="exp-title">BS Marine Transportation</div>
+              <div class="exp-date">2012 – 2016</div>
+            </div>
+            <div class="exp-company">Palawan Polytechnic College · Puerto Princesa, Philippines</div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </section>
+
+  <footer>
+    <div class="foot-wrap">
+      <div class="foot-logo">John Mark <span>Magalona</span></div>
+      <ul class="foot-nav">
+        <li><a href="../">Home</a></li>
+        <li><a href="../real-estate/">Real Estate</a></li>
+        <li><a href="../work/">Portfolio</a></li>
+        <li><a href="mailto:magalona.remote@gmail.com">Email</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('solid', window.scrollY > 60), { passive: true });
+
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+    hamburger.addEventListener('click', () => {
+      const open = hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open', open);
+      hamburger.setAttribute('aria-expanded', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        document.body.style.overflow = '';
+      });
+    });
+
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          /* Animate skill bars on reveal */
+          e.target.querySelectorAll('.skill-fill').forEach(bar => {
+            bar.style.width = bar.getAttribute('data-pct') + '%';
+          });
+          obs.unobserve(e.target);
+        }
+      }),
+      { threshold: 0.1, rootMargin: '0px 0px -30px 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HubSpot CRM Pipeline Demo — John Mark Magalona</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0d1b2a; --gold: #d4b453; --gold-dim: rgba(212,180,83,0.1);
+      --gold-border: rgba(212,180,83,0.25); --green: #10b981; --red: #ef4444;
+      --blue: #3b82f6; --orange: #f59e0b; --purple: #8b5cf6;
+      --white: #fff; --gray-50: #f9fafb; --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb; --gray-400: #9ca3af; --gray-600: #6b7280;
+      --serif: 'Playfair Display', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: var(--sans); background: #f1f5f9; color: #1e293b; }
+    a { color: inherit; text-decoration: none; }
+
+    /* HEADER */
+    .header {
+      background: var(--navy); padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .back-link {
+      font-size: 0.78rem; color: rgba(255,255,255,0.55);
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--gold); }
+    .header-title {
+      font-family: var(--serif); font-size: 1.05rem; color: var(--white);
+    }
+    .header-title span { color: var(--gold); }
+    .header-badge {
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      color: var(--gold); font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 4px 10px; border-radius: 4px;
+    }
+
+    /* PIPELINE TOOLBAR */
+    .toolbar {
+      background: var(--white); border-bottom: 1px solid var(--gray-200);
+      padding: 12px 28px; display: flex; align-items: center;
+      justify-content: space-between; gap: 12px; flex-wrap: wrap;
+    }
+    .toolbar-left { display: flex; align-items: center; gap: 12px; }
+    .toolbar-title { font-weight: 600; font-size: 0.95rem; }
+    .deal-count {
+      background: var(--gray-100); color: var(--gray-600);
+      font-size: 0.72rem; font-weight: 600; padding: 3px 8px; border-radius: 4px;
+    }
+    .btn-add {
+      background: var(--gold); color: var(--navy); font-weight: 700;
+      font-size: 0.8rem; padding: 8px 16px; border-radius: 6px;
+      border: none; cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-add:hover { opacity: 0.88; }
+
+    /* KANBAN BOARD */
+    .board {
+      display: flex; gap: 14px; padding: 20px 28px;
+      overflow-x: auto; min-height: calc(100vh - 120px);
+      align-items: flex-start;
+    }
+    .column {
+      flex: 0 0 240px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .col-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 14px;
+      background: var(--white);
+      border-radius: 8px;
+      border-top: 3px solid var(--col-color);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+    .col-title {
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em;
+      text-transform: uppercase; color: var(--col-color);
+    }
+    .col-count {
+      background: var(--col-color); color: var(--white);
+      font-size: 0.68rem; font-weight: 700; width: 20px; height: 20px;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    }
+    .cards { display: flex; flex-direction: column; gap: 9px; }
+
+    /* DEAL CARD */
+    .deal-card {
+      background: var(--white); border-radius: 8px;
+      border: 1px solid var(--gray-200);
+      padding: 14px; cursor: pointer;
+      transition: box-shadow 0.2s, border-color 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .deal-card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      border-color: var(--gold-border);
+    }
+    .deal-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 8px; }
+    .deal-name { font-weight: 600; font-size: 0.84rem; line-height: 1.3; }
+    .deal-priority {
+      font-size: 0.6rem; font-weight: 700; padding: 2px 7px; border-radius: 3px;
+      text-transform: uppercase; white-space: nowrap; margin-left: 6px; flex-shrink: 0;
+    }
+    .p-hot { background: rgba(239,68,68,0.1); color: var(--red); }
+    .p-warm { background: rgba(245,158,11,0.1); color: var(--orange); }
+    .p-cold { background: rgba(59,130,246,0.1); color: var(--blue); }
+    .deal-company { font-size: 0.74rem; color: var(--gray-600); margin-bottom: 10px; }
+    .deal-meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .deal-value {
+      font-size: 0.72rem; font-weight: 700; color: var(--navy);
+      background: var(--gray-50); padding: 3px 8px; border-radius: 4px;
+    }
+    .deal-days {
+      font-size: 0.7rem; color: var(--gray-400);
+    }
+    .deal-owner {
+      width: 22px; height: 22px; border-radius: 50%; background: var(--navy);
+      color: var(--gold); font-size: 0.58rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      margin-left: auto;
+    }
+    .deal-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 9px; }
+    .deal-tag {
+      font-size: 0.62rem; font-weight: 600; padding: 2px 7px; border-radius: 3px;
+      background: var(--gray-100); color: var(--gray-600);
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+      z-index: 1000; align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 14px; width: 100%; max-width: 520px;
+      max-height: 90vh; overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+      animation: slideUp 0.25s ease;
+    }
+    @keyframes slideUp { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header {
+      background: var(--navy); border-radius: 14px 14px 0 0;
+      padding: 22px 24px; position: sticky; top: 0;
+    }
+    .modal-stage-badge {
+      display: inline-block; font-size: 0.62rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding: 3px 10px; border-radius: 3px; margin-bottom: 10px;
+    }
+    .modal-deal-name {
+      font-family: var(--serif); font-size: 1.3rem; color: var(--white); margin-bottom: 4px;
+    }
+    .modal-company { font-size: 0.8rem; color: rgba(255,255,255,0.55); }
+    .modal-close {
+      position: absolute; top: 16px; right: 18px;
+      background: rgba(255,255,255,0.1); border: none; color: var(--white);
+      width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+      font-size: 1rem; display: flex; align-items: center; justify-content: center;
+    }
+    .modal-body { padding: 24px; }
+    .modal-section { margin-bottom: 22px; }
+    .modal-section-title {
+      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--gray-400); margin-bottom: 10px;
+    }
+    .modal-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 9px 0; border-bottom: 1px solid var(--gray-100);
+      font-size: 0.84rem;
+    }
+    .modal-row:last-child { border-bottom: none; }
+    .modal-row-label { color: var(--gray-600); }
+    .modal-row-val { font-weight: 600; }
+    .modal-tasks { display: flex; flex-direction: column; gap: 8px; }
+    .modal-task {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 10px 12px; background: var(--gray-50); border-radius: 7px;
+      font-size: 0.82rem;
+    }
+    .task-check {
+      width: 16px; height: 16px; border-radius: 4px; flex-shrink: 0;
+      border: 2px solid var(--gray-300); margin-top: 1px; cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .task-check.done { background: var(--green); border-color: var(--green); color: var(--white); font-size: 0.6rem; }
+    .task-text { flex: 1; line-height: 1.4; }
+    .task-text.done { text-decoration: line-through; color: var(--gray-400); }
+    .modal-note {
+      background: rgba(212,180,83,0.08); border: 1px solid var(--gold-border);
+      border-radius: 8px; padding: 12px 14px; font-size: 0.82rem;
+      color: #5a4a1a; line-height: 1.6;
+    }
+    .modal-actions { display: flex; gap: 10px; margin-top: 4px; }
+    .btn-primary {
+      flex: 1; background: var(--navy); color: var(--white); font-weight: 600;
+      font-size: 0.82rem; padding: 11px; border-radius: 7px; border: none;
+      cursor: pointer; transition: opacity 0.2s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-secondary {
+      flex: 1; background: var(--gray-100); color: var(--gray-600); font-weight: 600;
+      font-size: 0.82rem; padding: 11px; border-radius: 7px; border: none;
+      cursor: pointer; transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: var(--gray-200); }
+
+    /* DEMO LABEL */
+    .demo-banner {
+      background: rgba(212,180,83,0.12); border-bottom: 1px solid var(--gold-border);
+      padding: 8px 28px; text-align: center;
+      font-size: 0.72rem; color: #7a5f1a; font-weight: 500;
+    }
+    .demo-banner strong { font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <div class="demo-banner">
+    <strong>Interactive Demo</strong> — Click any deal card to open the contact record. Built to show HubSpot CRM skills.
+  </div>
+
+  <div class="header">
+    <div class="header-left">
+      <a href="index.html" class="back-link">← Portfolio</a>
+      <div class="header-title">JMM <span>CRM</span></div>
+    </div>
+    <div class="header-badge">HubSpot-Style Pipeline</div>
+  </div>
+
+  <div class="toolbar">
+    <div class="toolbar-left">
+      <div class="toolbar-title">Sales Pipeline — AU Clients</div>
+      <div class="deal-count" id="totalCount">8 deals</div>
+    </div>
+    <button class="btn-add" onclick="alert('In a real HubSpot build, this opens a new deal form. All 8 stages, required fields, and automation triggers are configured.')">+ Add Deal</button>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+    <div class="modal" id="modal">
+      <div class="modal-header" id="modalHeader">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <div class="modal-stage-badge" id="modalStageBadge"></div>
+        <div class="modal-deal-name" id="modalDealName"></div>
+        <div class="modal-company" id="modalCompany"></div>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const STAGES = [
+      { id: 'lead',        label: 'New Lead',        color: '#64748b' },
+      { id: 'qualified',   label: 'Qualified',       color: '#3b82f6' },
+      { id: 'proposal',    label: 'Proposal Sent',   color: '#f59e0b' },
+      { id: 'negotiation', label: 'Negotiating',     color: '#8b5cf6' },
+      { id: 'closed',      label: 'Closed Won',      color: '#10b981' },
+    ];
+
+    const DEALS = [
+      {
+        id: 1, stage: 'lead', name: 'Sarah Mitchell', company: 'Ray White Brisbane North',
+        role: 'Principal Agent', value: '$2,800 AUD/mo', days: 2, priority: 'hot',
+        tags: ['Real Estate', 'Full-Time'],
+        contact: { email: 's.mitchell@raywhite.com.au', phone: '+61 7 3291 xxxx', location: 'Brisbane, QLD' },
+        tasks: [
+          { text: 'Send intro email with portfolio link', done: true },
+          { text: 'Follow up with real estate niche page URL', done: true },
+          { text: 'Schedule discovery call (Calendly)', done: false },
+          { text: 'Prepare agency-specific pitch deck', done: false },
+        ],
+        note: 'Referred by a LinkedIn connection. Agency runs 3 agents and needs full-time listing + transaction support. High priority — decision in 2 weeks.'
+      },
+      {
+        id: 2, stage: 'lead', name: 'James Holloway', company: 'LJ Hooker Cairns',
+        role: 'Branch Manager', value: '$2,200 AUD/mo', days: 4, priority: 'warm',
+        tags: ['Real Estate', 'Part-Time'],
+        contact: { email: 'j.holloway@ljhooker.com.au', phone: '+61 7 4051 xxxx', location: 'Cairns, QLD' },
+        tasks: [
+          { text: 'Send cold outreach email', done: true },
+          { text: 'Connect on LinkedIn', done: false },
+          { text: 'Share real estate VA page link', done: false },
+        ],
+        note: 'Inbound from OnlineJobs.ph listing. Looking for 20 hrs/week part-time support with Rex CRM experience.'
+      },
+      {
+        id: 3, stage: 'qualified', name: 'Amanda Chen', company: 'McGrath Inner West',
+        role: 'Operations Manager', value: '$3,500 AUD/mo', days: 7, priority: 'hot',
+        tags: ['Operations', 'Full-Time'],
+        contact: { email: 'a.chen@mcgrath.com.au', phone: '+61 2 9560 xxxx', location: 'Sydney, NSW' },
+        tasks: [
+          { text: 'Discovery call completed', done: true },
+          { text: 'Confirm Rex CRM proficiency', done: true },
+          { text: 'Send sample SOP template', done: true },
+          { text: 'Submit formal proposal', done: false },
+          { text: 'Agree trial period terms', done: false },
+        ],
+        note: 'Strong fit. McGrath runs Console Cloud + Rex. Amanda wants dedicated ops VA, not just listing admin. Budget confirmed at $3.5k/mo.'
+      },
+      {
+        id: 4, stage: 'qualified', name: 'Tom Nguyen', company: 'Harcourts Gold Coast',
+        role: 'Sales Director', value: '$1,800 AUD/mo', days: 5, priority: 'warm',
+        tags: ['Real Estate', 'Admin'],
+        contact: { email: 't.nguyen@harcourts.com.au', phone: '+61 7 5539 xxxx', location: 'Gold Coast, QLD' },
+        tasks: [
+          { text: 'Intro call completed', done: true },
+          { text: 'Sent portfolio + niche page', done: true },
+          { text: 'Awaiting decision from team', done: false },
+        ],
+        note: 'Team decision needed — 3 agents voting on VA hire. Follow up Thursday.'
+      },
+      {
+        id: 5, stage: 'proposal', name: 'Claire Robertson', company: 'Barry Plant Melbourne',
+        role: 'Office Manager', value: '$2,600 AUD/mo', days: 11, priority: 'warm',
+        tags: ['Real Estate', 'CRM'],
+        contact: { email: 'c.robertson@barryplant.com.au', phone: '+61 3 9874 xxxx', location: 'Melbourne, VIC' },
+        tasks: [
+          { text: 'Proposal sent (7 Jun)', done: true },
+          { text: 'Follow-up call scheduled', done: true },
+          { text: 'Requested sample listing workflow', done: false },
+          { text: 'Confirm PropertyMe access for trial', done: false },
+        ],
+        note: 'Proposal pending for 4 days. Claire said she needs board approval. Trial period of 2 weeks proposed at reduced rate.'
+      },
+      {
+        id: 6, stage: 'negotiation', name: 'Daniel Forsythe', company: 'Belle Property Noosa',
+        role: 'Principal', value: '$3,200 AUD/mo', days: 15, priority: 'hot',
+        tags: ['Real Estate', 'Premium'],
+        contact: { email: 'd.forsythe@belleproperty.com', phone: '+61 7 5447 xxxx', location: 'Noosa, QLD' },
+        tasks: [
+          { text: 'Proposal accepted in principle', done: true },
+          { text: 'Counter-offer: 4 wk trial at $2,800/mo', done: true },
+          { text: 'Counter back: 2 wk trial at $3,000/mo', done: false },
+          { text: 'Draft service agreement', done: false },
+        ],
+        note: 'Daniel wants to start in 2 weeks. Negotiating trial rate. Agreed on scope: listings + vendor comms + CRM. High value — keep moving fast.'
+      },
+      {
+        id: 7, stage: 'closed', name: 'Karen Whitfield', company: 'First National Bundaberg',
+        role: 'Principal Agent', value: '$2,400 AUD/mo', days: 22, priority: 'cold',
+        tags: ['Real Estate', 'Active'],
+        contact: { email: 'k.whitfield@firstnational.com.au', phone: '+61 7 4151 xxxx', location: 'Bundaberg, QLD' },
+        tasks: [
+          { text: 'Contract signed (15 Jun)', done: true },
+          { text: 'Onboarding call completed', done: true },
+          { text: 'Rex CRM access granted', done: true },
+          { text: 'First listing live (18 Jun)', done: true },
+          { text: '30-day review scheduled (15 Jul)', done: false },
+        ],
+        note: 'Active client — Week 2. Karen is very happy with listing upload speed and vendor communication turnaround. Monthly rate confirmed at $2,400 AUD.'
+      },
+      {
+        id: 8, stage: 'closed', name: 'Brendan Sully', company: 'Century 21 Townsville',
+        role: 'Director', value: '$1,900 AUD/mo', days: 34, priority: 'cold',
+        tags: ['Admin', 'Active'],
+        contact: { email: 'b.sully@century21.com.au', phone: '+61 7 4772 xxxx', location: 'Townsville, QLD' },
+        tasks: [
+          { text: 'Contract signed (3 Jun)', done: true },
+          { text: 'Admin SOPs delivered', done: true },
+          { text: 'Weekly reports running', done: true },
+          { text: 'Upsell: add social media support', done: false },
+        ],
+        note: 'Long-term client. Brendan referred 2 prospects already. Opportunity to expand scope to include Facebook/Instagram scheduling.'
+      },
+    ];
+
+    function buildBoard() {
+      const board = document.getElementById('board');
+      board.innerHTML = '';
+      STAGES.forEach(stage => {
+        const deals = DEALS.filter(d => d.stage === stage.id);
+        const col = document.createElement('div');
+        col.className = 'column';
+        col.style.setProperty('--col-color', stage.color);
+        col.innerHTML = `
+          <div class="col-header">
+            <span class="col-title">${stage.label}</span>
+            <span class="col-count">${deals.length}</span>
+          </div>
+          <div class="cards" id="col-${stage.id}">
+            ${deals.map(d => dealCardHTML(d, stage)).join('')}
+          </div>`;
+        board.appendChild(col);
+      });
+    }
+
+    function dealCardHTML(d, stage) {
+      const pClass = d.priority === 'hot' ? 'p-hot' : d.priority === 'warm' ? 'p-warm' : 'p-cold';
+      const pLabel = d.priority.charAt(0).toUpperCase() + d.priority.slice(1);
+      const initials = d.name.split(' ').map(n=>n[0]).join('').slice(0,2);
+      return `
+        <div class="deal-card" onclick="openModal(${d.id})">
+          <div class="deal-header">
+            <div class="deal-name">${d.name}</div>
+            <div class="deal-priority ${pClass}">${pLabel}</div>
+          </div>
+          <div class="deal-company">${d.company}</div>
+          <div class="deal-meta">
+            <span class="deal-value">${d.value}</span>
+            <span class="deal-days">${d.days}d</span>
+            <div class="deal-owner">${initials}</div>
+          </div>
+          <div class="deal-tags">${d.tags.map(t=>`<span class="deal-tag">${t}</span>`).join('')}</div>
+        </div>`;
+    }
+
+    function openModal(id) {
+      const d = DEALS.find(x => x.id === id);
+      const stage = STAGES.find(s => s.id === d.stage);
+      const doneTasks = d.tasks.filter(t => t.done).length;
+
+      document.getElementById('modalHeader').style.background = stage.color;
+      document.getElementById('modalStageBadge').textContent = stage.label;
+      document.getElementById('modalStageBadge').style.background = 'rgba(255,255,255,0.15)';
+      document.getElementById('modalStageBadge').style.color = '#fff';
+      document.getElementById('modalDealName').textContent = d.name;
+      document.getElementById('modalCompany').textContent = `${d.company} · ${d.role}`;
+
+      document.getElementById('modalBody').innerHTML = `
+        <div class="modal-section">
+          <div class="modal-section-title">Contact Details</div>
+          <div class="modal-row"><span class="modal-row-label">Email</span><span class="modal-row-val">${d.contact.email}</span></div>
+          <div class="modal-row"><span class="modal-row-label">Phone</span><span class="modal-row-val">${d.contact.phone}</span></div>
+          <div class="modal-row"><span class="modal-row-label">Location</span><span class="modal-row-val">${d.contact.location}</span></div>
+          <div class="modal-row"><span class="modal-row-label">Deal Value</span><span class="modal-row-val">${d.value}</span></div>
+          <div class="modal-row"><span class="modal-row-label">Days in Stage</span><span class="modal-row-val">${d.days} days</span></div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">Action Checklist (${doneTasks}/${d.tasks.length} done)</div>
+          <div class="modal-tasks">
+            ${d.tasks.map((t, i) => `
+              <div class="modal-task">
+                <div class="task-check ${t.done ? 'done' : ''}" onclick="toggleTask(${d.id}, ${i})">
+                  ${t.done ? '✓' : ''}
+                </div>
+                <div class="task-text ${t.done ? 'done' : ''}">${t.text}</div>
+              </div>`).join('')}
+          </div>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">VA Notes</div>
+          <div class="modal-note">${d.note}</div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn-primary" onclick="moveStage(${d.id})">Move to Next Stage →</button>
+          <button class="btn-secondary" onclick="closeModal()">Close</button>
+        </div>`;
+
+      document.getElementById('modalOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+      window._openDealId = id;
+    }
+
+    function toggleTask(dealId, taskIdx) {
+      const d = DEALS.find(x => x.id === dealId);
+      d.tasks[taskIdx].done = !d.tasks[taskIdx].done;
+      openModal(dealId);
+    }
+
+    function moveStage(dealId) {
+      const d = DEALS.find(x => x.id === dealId);
+      const stageIdx = STAGES.findIndex(s => s.id === d.stage);
+      if (stageIdx < STAGES.length - 1) {
+        d.stage = STAGES[stageIdx + 1].id;
+        buildBoard();
+        openModal(dealId);
+      } else {
+        alert('Deal is already at the final stage (Closed Won).');
+      }
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== document.getElementById('modalOverlay')) return;
+      document.getElementById('modalOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    buildBoard();
+  </script>
+</body>
+</html>
